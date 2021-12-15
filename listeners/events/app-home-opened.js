@@ -1,6 +1,6 @@
 const appHomeOpenedCallback = async ({ client, event, body }) => {
   
-  console.log('event');
+  console.log('app home opened event');
   // Ignore the `app_home_opened` event for anything but the Home tab
   if (event.tab !== 'home') return;
 
@@ -23,6 +23,40 @@ const appHomeOpenedCallback = async ({ client, event, body }) => {
               "type": "mrkdwn",
               "text": "Learn how home tabs can be more useful and interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>."
             }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "input",
+            "block_id": "input123",
+            "label": {
+              "type": "plain_text",
+              "text": "Enter an email to invite to the hackathon"
+            },
+            "element": {
+              "type": "plain_text_input",
+              "action_id": "plain_input",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "Enter an email to invite to a Slack Connect channel"
+              }
+            }
+          },
+          {
+            "type": "actions",
+            "block_id": "actions1",
+            "elements": [
+              {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Submit Invite"
+                },
+                "value": "cancel",
+                "action_id": "submit_invite_action"
+              }
+            ]
           }
         ]
       }

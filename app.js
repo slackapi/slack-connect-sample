@@ -1,9 +1,10 @@
 
 const { App, LogLevel } = require('@slack/bolt');
-const { config } = require('dotenv');
+require('dotenv').config();
 const { registerListeners } = require('./listeners');
 
-config();
+console.log('hello')
+console.log(process.env.SLACK_BOT_TOKEN)
 
 /** Initialization **/
 const app = new App({
