@@ -1,39 +1,37 @@
-
-const { App, LogLevel } = require('@slack/bolt');
-require('dotenv').config();
-const { registerListeners } = require('./listeners');
-
-// /** Initialization **/
-// const app = new App({
-//   token: process.env.SLACK_BOT_TOKEN,
-//   socketMode: true,
-//   appToken: process.env.SLACK_APP_TOKEN,
-//   logLevel: LogLevel.DEBUG,
-// });
+const { App, LogLevel } = require("@slack/bolt");
+require("dotenv").config();
+const { registerListeners } = require("./listeners");
 
 const installations = [
   {
-    enterpriseId: 'T02RSDVSQ6L',
     teamId: 'T02RSDVSQ6L',
     botToken: process.env.SLACK_BOT_TOKEN_EXT,
-    botId: 'B1251',
-    botUserId: 'U12385',
+    botId: 'B02QN453RM5',
+    botUserId: 'U02R2PCU6JX',
   },
   {
-    teamId: 'T77712',
+    teamId: 'T02752RBD2R',
     botToken: process.env.SLACK_BOT_TOKEN,
-    botId: 'B5910',
-    botUserId: 'U1239',
+    botId: 'B02QMQK12AH',
+    botUserId: 'U02QQPS44D9',
+  },
+   {
+    teamId: 'T028QM79BGU',
+    botToken: process.env.SLACK_BOT_TOKEN_DISCOVERY_TEST,
+    botId: 'B0302RMCRE1',
+    botUserId: 'U02UXMM6G4E',
   },
 ];
 
+
+
 const authorizeFn = async ({ teamId, enterpriseId }) => {
-  console.log(teamId)
-  console.log(enterpriseId)
+
   // Fetch team info from database
   for (const team of installations) {
+    
     // Check for matching teamId and enterpriseId in the installations array
-    if ((team.teamId === teamId) && (team.enterpriseId === enterpriseId)) {
+    if (team.teamId === teamId) {
       // This is a match. Use these installation credentials.
       return {
         // You could also set userToken instead
@@ -49,22 +47,18 @@ const authorizeFn = async ({ teamId, enterpriseId }) => {
 
 const app = new App({ authorize: authorizeFn, signingSecret: process.env.SLACK_SIGNING_SECRET });
 
-console.log(app)
-// NOTE: This is for demonstration purposes only.
-// All sensitive data should be stored in a secure database
-// Assuming this app only uses bot tokens, the following object represents a model for storing the credentials as the app is installed into multiple workspaces.
-
-
-
-/** Register Listeners **/
 registerListeners(app);
+
 
 /** Start Bolt App **/
 (async () => {
   try {
     await app.start(process.env.PORT || 3000);
-    console.log('⚡️ Bolt app is running! ⚡️');
+    console.log("⚡️ Bolt app is running! ⚡️");
+
+
   } catch (error) {
-    console.error('Unable to start App', error);
+    console.error("Unable to start App", error);
   }
 })();
+

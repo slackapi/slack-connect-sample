@@ -1,9 +1,19 @@
 const { listInvites } = require('./list_invites.js');
 const { acceptInvite } = require('./accept_invite.js');
 const { submitSharedChannelInvite } = require('./submit_channel_invite.js');
+const { disconnectChannel } = require('./disconnectChannel.js');
+const { approveInvite } = require('./approveInvite.js');
+const { denyInvite } = require('./denyInvite.js');
+const { uploadFile } = require('./uploadFile.js');
 
 module.exports.register = (app) => {
   app.action('submit_invite_action', submitSharedChannelInvite);
   app.action('list_invites_action', listInvites);
-  app.action('accept_invite_action', acceptInvite);
+  app.action('accept_action', acceptInvite);
+  app.action('disconnect_channel', disconnectChannel);
+  app.action('approve_action', approveInvite);
+  app.action('deny_action', denyInvite);
+  app.action('upload_action', uploadFile);
+  app.action('ignore_action', uploadFile);
+  
 };

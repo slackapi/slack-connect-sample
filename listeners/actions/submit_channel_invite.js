@@ -1,23 +1,32 @@
+let inviteModal = require("../views/invite-user-modal.js");
+
 const submitSharedChannelInvite = async ({ ack, client, action, body }) => {
   try {
-    await ack()
+    await ack();
+    console.log("inside submit channel invite");
+    let inviteUserBlocks = await inviteModal.inviteUserBlock();
 
-    console.log('in submit')
-    let email = 'horeaporutiu1@gmail.com'
-    let channel = 'C02QAHN7THV'
-    let resp = await client.conversations.inviteShared({
-      emails: email,
-      channel: channel,
-      free_trial_accepted: "true",
-    })
-    console.log('SHARED CHANEL INVITE')
-    console.log(resp)
-    
+    await client.views.open({
+      trigger_id: body.trigger_id,
+      view: {
+        "type": "modal",
+        "notify_on_close": true,
+        "callback_id": "inviteSubmitted",
+        "title": {
+          "type": "plain_text",
+          "text": "Slack Connect Invite",
+        },
+        "blocks": inviteUserBlocks,
+        "submit": {
+          "type": "plain_text",
+          "text": "Invite",
+        },
+      },
+    });
+    return;
   } catch (error) {
     console.error(error);
   }
 };
 
 module.exports = { submitSharedChannelInvite };
-
-

@@ -18,6 +18,7 @@ const app = new App({
   installationStore: {
     storeInstallation: async (installation) => {
       // Org-wide installation
+      
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
         return await tempDB.set(installation.enterprise.id, installation);
       }

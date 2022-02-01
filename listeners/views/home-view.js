@@ -1,79 +1,47 @@
 
-const homeBlocks = async() => {
+const homeBlocks = async(ack, view, body, client) => {
   
-    // Intro message - 
-    
-    let blocks = [
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Welcome home, <@" + event.user + "> :house:*"
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "Learn how home tabs can be more useful and interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>."
-          }
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "input",
-          "block_id": "input123",
-          "label": {
-            "type": "plain_text",
-            "text": "Enter an email to invite to the hackathon"
-          },
-          "element": {
-            "type": "plain_text_input",
-            "action_id": "plain_input",
-            "placeholder": {
-              "type": "plain_text",
-              "text": "Enter an email to invite to a Slack Connect channel"
-            }
-          }
-        },
-        {
-          "type": "actions",
-          "block_id": "actions1",
-          "elements": [
-            {
-              "type": "button",
-              "text": {
-                  "type": "plain_text",
-                  "text": "Submit Invite"
-              },
-              "value": "cancel",
-              "action_id": "submit_invite_action"
-            },
-            {
-              "type": "button",
-              "text": {
-                  "type": "plain_text",
-                  "text": "List Invites"
-              },
-              "value": "cancel",
-              "action_id": "list_invites_action"
-            },
-            {
-              "type": "button",
-              "text": {
-                  "type": "plain_text",
-                  "text": "Accept Invite"
-              },
-              "value": "cancel",
-              "action_id": "accept_invite_action"
-            }
-          ]
+    let homeBlocks = [
+       {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*Welcome To the Slack Connect Admin app :sparkles: :sparkles: * \n Here is a list of features you can try out to understand how the <https://api.slack.com/apis/connect#invite|Slack Connect APIs> can be used to automate admin tasks."
         }
-      ]
-    return blocks
+      },
+      {
+        "type": "divider"
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*<https://api.slack.com/apis/connect#invite|Step 1: Invite users and make Slack Connect channels>*"
+        }
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*<https://api.slack.com/apis/connect#accept|Step 2: Accept Invitations>*"
+        }
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*<https://api.slack.com/apis/connect#approve|Step 3: Approve and Decline Invitations>* "
+        }
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*<https://api.slack.com/apis/connect#disconnect|Step 4: Disconnect Slack Connect channels>*"
+        }
+      }
+    ]
+    return homeBlocks
   };
-  
-  
   
   module.exports = { homeBlocks };
