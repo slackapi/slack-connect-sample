@@ -1,5 +1,5 @@
 let homeView = require("../views/home-view.js");
-let utils = require("../../utils.js");
+let utils = require("../../utils/utils.js");
 
 const appHomeOpenedCallback = async ({ client, event, body }) => {
   if (event.tab !== "home") return;

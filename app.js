@@ -2,7 +2,7 @@ const { App, LogLevel } = require("@slack/bolt");
 require("dotenv").config();
 const { registerListeners } = require("./listeners");
 const { express } = require("express");
-let dbUtils = require("./db-utils.js");
+let dbUtils = require("./utils/db-utils.js");
 
 const authorizeFn = async ({ teamId, enterpriseId }) => {
   try {

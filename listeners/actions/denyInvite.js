@@ -1,5 +1,5 @@
 let homeView = require("../views/home-view.js");
-let utils = require("../utils/utils.js");
+let utils = require("../../utils/utils.js");
 
 const denyInvite = async ({ ack, client, action, body }) => {
   try {

@@ -1,6 +1,6 @@
 // const { confirmInviteCallback } = require('./confirm-invite');
 let homeView = require("./home-view.js");
-let utils = require("../../utils.js");
+let utils = require("../../utils/utils.js");
 
 const uploadFileCallback = async ({ ack, view, body, client }) => {
   try {
