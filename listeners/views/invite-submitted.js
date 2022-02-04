@@ -31,8 +31,9 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
       emails: emailToInvite,
       external_limited: isExternalLimited,
     });
-
-    return resp;
+    console.log('resp after inviteShared API call: ')
+    console.log(resp)
+    return;
   } catch (error) {
     console.error(error);
   }

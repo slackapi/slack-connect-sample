@@ -1,5 +1,6 @@
 const disconnectBlocks = async () => {
-    
+  // Intro message -
+
   let blocks = [
     {
       "type": "input",

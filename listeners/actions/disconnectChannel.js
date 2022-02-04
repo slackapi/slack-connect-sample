@@ -1,11 +1,11 @@
-let disconnectModal = require("../views/disconnect-channel-modal.js")
+let disconnectModal = require("../views/disconnect-channel-modal.js");
 
 const disconnectChannel = async ({ ack, client, action, body }) => {
   try {
-    await ack()
-    console.log('inside disconnectChannel.js')
-    let disconnectBlocks = await disconnectModal.disconnectBlocks()
-    
+    await ack();
+    console.log("disconnectChannel action listener ");
+    let disconnectBlocks = await disconnectModal.disconnectBlocks();
+
     await client.views.open({
       trigger_id: body.trigger_id,
       view: {
@@ -14,21 +14,18 @@ const disconnectChannel = async ({ ack, client, action, body }) => {
         "callback_id": "disconnect",
         "title": {
           "type": "plain_text",
-          "text": "Slack Connect Invite"
+          "text": "Disconnect a Channel",
         },
         "blocks": disconnectBlocks,
-          "submit": {
-            "type": "plain_text",
-            "text": "Disconnect"
-          },
-      }
+        "submit": {
+          "type": "plain_text",
+          "text": "Disconnect",
+        },
+      },
     });
-    
   } catch (error) {
     console.error(error);
   }
 };
 
 module.exports = { disconnectChannel };
-
-
