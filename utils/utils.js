@@ -1,11 +1,4 @@
-const uploadBlocks = async () => {
-  // Intro message -
-
-  let str = "hello world";
-
-  return str;
-};
-
+let dbUtils = require("./db-utils.js");
 const addFile = async (inviteID, fileURL, client, userID) => {
   let resp = await client.conversations.listConnectInvites();
 
@@ -14,12 +7,20 @@ const addFile = async (inviteID, fileURL, client, userID) => {
   };
   let inviteBlocks = [];
 
-  for (let i = 0; i < resp.invites.length; i++) {
+  let numInvites;
+
+  //Slack API cannot have over 100 blocks in one view
+  if (resp.invites.length > 60) {
+    numInvites = 60;
+  } else {
+    numInvites = resp.invites.length;
+  }
+
+  for (let i = 0; i < numInvites.length; i++) {
     let blockText;
     let currentInvite = await resp.invites[i];
     let email = currentInvite.invite.recipient_email;
     if (inviteID == currentInvite.invite.id) {
-      console.log("going into fileURL");
       blockText =
         `<${currentInvite.invite.link}|Invite ${currentInvite.invite.id}> \n Invitation to: ${email} \n Inviting Team: ${currentInvite.invite.inviting_team.name} \n Inviting User: ${currentInvite.invite.inviting_user.name} \n Channel Name: ${currentInvite.channel.name} \n Status: Not yet approved \n File: ${fileURL}`;
     } else {
@@ -38,72 +39,15 @@ const addFile = async (inviteID, fileURL, client, userID) => {
 
       let awayTeamName = currentInvite.acceptances[0].accepting_team.name;
       let awayTeamId = currentInvite.acceptances[0].accepting_team.id;
-      let newStr = currentInvite.invite.id + "," + awayTeamId + "," + userID;
+      let newStr = currentInvite.invite.id + "," + awayTeamId + "," + userID +
+        inviteBlocks.push(divider);
 
-      inviteBlocks.push(divider);
-      inviteBlocks.push(
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: blockText,
-          },
-        },
-        {
-          "type": "actions",
-          "elements": [
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Approve",
-                "emoji": true,
-              },
-              "value": newStr,
-              "action_id": "approve_action",
-              "style": "primary",
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Deny",
-                "emoji": true,
-              },
-              "value": newStr,
-              "action_id": "deny_action",
-              "style": "danger",
-              "confirm": {
-                "title": {
-                  "type": "plain_text",
-                  "text": "Are you sure?",
-                },
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "Do you want to deny this Slack Connect invitation?",
-                },
-                "confirm": {
-                  "type": "plain_text",
-                  "text": "Yes",
-                },
-                "deny": {
-                  "type": "plain_text",
-                  "text": "No",
-                },
-              },
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Upload file",
-                "emoji": true,
-              },
-              "value": currentInvite.invite.id,
-              "action_id": "upload_action",
-            },
-          ],
-        },
+      await addApproveBlocks(
+        inviteBlocks,
+        newStr,
+        currentInvite,
+        fileURL,
+        blockText,
       );
     } else {
       let channelID = resp.invites[i].channel.id;
@@ -113,75 +57,207 @@ const addFile = async (inviteID, fileURL, client, userID) => {
         userID;
 
       inviteBlocks.push(divider);
-      inviteBlocks.push(
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: blockText,
-          },
-        },
-        {
-          "type": "actions",
-          "elements": [
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Accept",
-                "emoji": true,
-              },
-              "value": acceptStr,
-              "action_id": "accept_action",
-              "style": "primary",
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Ignore",
-                "emoji": true,
-              },
-              "value": currentInvite.invite.id,
-              "action_id": "deny_action",
-              "confirm": {
-                "title": {
-                  "type": "plain_text",
-                  "text": "Are you sure?",
-                },
-                "text": {
-                  "type": "mrkdwn",
-                  "text":
-                    "Do you want to ignore this Slack Connect invitation?",
-                },
-                "confirm": {
-                  "type": "plain_text",
-                  "text": "Yes",
-                },
-                "deny": {
-                  "type": "plain_text",
-                  "text": "No",
-                },
-              },
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Upload file",
-                "emoji": true,
-              },
-              "value": currentInvite.invite.id,
-              "action_id": "upload_action",
-            },
-          ],
-        },
+      await addAcceptBlocks(
+        inviteBlocks,
+        acceptStr,
+        currentInvite,
+        fileURL,
+        blockText,
       );
     }
   }
 
-  console.log("about to return inviteBlocks: ");
-  console.log(inviteBlocks);
+  return inviteBlocks;
+};
+
+const addApproveBlocks = async (
+  inviteBlocks,
+  inviteInfo,
+  currentInvite,
+  fileURL,
+  blockText,
+) => {
+  let sectionWithFile;
+  let channelID = inviteInfo.channel.id;
+  let inviteID = inviteInfo.invite.id;
+  let channelNameFromInvInfo = inviteInfo.channel.name;
+
+  let acceptStr = inviteID + "," + channelNameFromInvInfo + "," + channelID +
+    ",";
+
+  if (fileURL.length > 0 && blockText.length > 0) {
+    sectionWithFile = {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: blockText,
+      },
+    };
+  } else {
+    sectionWithFile = {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text:
+          `<${currentInvite.invite.link}|Invite ${currentInvite.invite.id}> \n Invitation to: ${currentInvite.invite.recipient_email} \n Inviting Team: ${currentInvite.invite.inviting_team.name} \n Inviting User: ${currentInvite.invite.inviting_user.name} \n Channel Name: ${currentInvite.channel.name} \n Status: Not yet accepted`,
+      },
+    };
+  }
+  inviteBlocks.push({ type: "divider" });
+  inviteBlocks.push(sectionWithFile);
+
+  inviteBlocks.push(
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Approve",
+            "emoji": true,
+          },
+          "value": acceptStr,
+          "action_id": "approve_action",
+          "style": "primary",
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Deny",
+            "emoji": true,
+          },
+          "value": acceptStr,
+          "action_id": "deny_action",
+          "style": "danger",
+          "confirm": {
+            "title": {
+              "type": "plain_text",
+              "text": "Are you sure?",
+            },
+            "text": {
+              "type": "mrkdwn",
+              "text": "Do you want to deny this Slack Connect invitation?",
+            },
+            "confirm": {
+              "type": "plain_text",
+              "text": "Yes",
+            },
+            "deny": {
+              "type": "plain_text",
+              "text": "No",
+            },
+          },
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Upload file",
+            "emoji": true,
+          },
+          "value": currentInvite.invite.id,
+          "action_id": "upload_action",
+        },
+      ],
+    },
+  );
+
+  return inviteBlocks;
+};
+
+const addAcceptBlocks = async (
+  inviteBlocks,
+  inviteInfo,
+  currentInvite,
+  fileURL,
+  blockText,
+) => {
+  let sectionWithFile;
+  let channelID = inviteInfo.channel.id;
+  let inviteID = inviteInfo.invite.id;
+  let channelNameFromInvInfo = inviteInfo.channel.name;
+
+  let acceptStr = inviteID + "," + channelNameFromInvInfo + "," + channelID +
+    ",";
+
+  if (fileURL.length > 0 && blockText.length > 0) {
+    sectionWithFile = {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: blockText,
+      },
+    };
+  } else {
+    sectionWithFile = {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text:
+          `<${currentInvite.invite.link}|Invite ${currentInvite.invite.id}> \n Invitation to: ${currentInvite.invite.recipient_email} \n Inviting Team: ${currentInvite.invite.inviting_team.name} \n Inviting User: ${currentInvite.invite.inviting_user.name} \n Channel Name: ${currentInvite.channel.name} \n Status: Not yet accepted`,
+      },
+    };
+  }
+  inviteBlocks.push({ type: "divider" });
+  inviteBlocks.push(sectionWithFile);
+  inviteBlocks.push(
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Accept",
+            "emoji": true,
+          },
+          "value": acceptStr,
+          "action_id": "accept_action",
+          "style": "primary",
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Ignore",
+            "emoji": true,
+          },
+          "value": currentInvite.invite.id,
+          "action_id": "deny_action",
+          "confirm": {
+            "title": {
+              "type": "plain_text",
+              "text": "Are you sure?",
+            },
+            "text": {
+              "type": "mrkdwn",
+              "text": "Do you want to ignore this Slack Connect invitation?",
+            },
+            "confirm": {
+              "type": "plain_text",
+              "text": "Yes",
+            },
+            "deny": {
+              "type": "plain_text",
+              "text": "No",
+            },
+          },
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Upload file",
+            "emoji": true,
+          },
+          "value": currentInvite.invite.id,
+          "action_id": "upload_action",
+        },
+      ],
+    },
+  );
 
   return inviteBlocks;
 };
@@ -189,12 +265,19 @@ const addFile = async (inviteID, fileURL, client, userID) => {
 const listInvites = async (client, userID) => {
   let resp = await client.conversations.listConnectInvites();
 
-  let divider = {
-    type: "divider",
-  };
   let inviteBlocks = [];
+  let numInvites;
 
-  for (let i = 0; i < resp.invites.length; i++) {
+  //Slack API cannot have over 100 blocks in one view
+  if (resp.invites.length > 60) {
+    numInvites = 60;
+  } else {
+    numInvites = resp.invites.length;
+  }
+
+  for (let i = 0; i < numInvites; i++) {
+    let savedInvite = dbUtils.saveInvite(resp.invites[i]);
+
     let currentInvite = await resp.invites[i];
 
     if (
@@ -203,160 +286,23 @@ const listInvites = async (client, userID) => {
       continue;
     }
 
-    let email = currentInvite.invite.recipient_email;
-
     if (currentInvite.acceptances != undefined) {
       if (currentInvite.acceptances[0].approval_status == "approved") continue;
 
-      let awayTeamName = currentInvite.acceptances[0].accepting_team.name;
-      let awayTeamId = currentInvite.acceptances[0].accepting_team.id;
-      let newStr = currentInvite.invite.id + "," + awayTeamId + "," + userID;
-
-      inviteBlocks.push(divider);
-      inviteBlocks.push(
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text:
-              `<${currentInvite.invite.link}|Invite ${currentInvite.invite.id}> \n Invitation to: ${email} \n Inviting Team: ${currentInvite.invite.inviting_team.name} \n Inviting User: ${currentInvite.invite.inviting_user.name} \n Channel Name: ${currentInvite.channel.name} \n Status: Not yet approved`,
-          },
-        },
-        {
-          "type": "actions",
-          "elements": [
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Approve",
-                "emoji": true,
-              },
-              "value": newStr,
-              "action_id": "approve_action",
-              "style": "primary",
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Deny",
-                "emoji": true,
-              },
-              "value": newStr,
-              "action_id": "deny_action",
-              "style": "danger",
-              "confirm": {
-                "title": {
-                  "type": "plain_text",
-                  "text": "Are you sure?",
-                },
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "Do you want to deny this Slack Connect invitation?",
-                },
-                "confirm": {
-                  "type": "plain_text",
-                  "text": "Yes",
-                },
-                "deny": {
-                  "type": "plain_text",
-                  "text": "No",
-                },
-              },
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Upload file",
-                "emoji": true,
-              },
-              "value": currentInvite.invite.id,
-              "action_id": "upload_action",
-            },
-          ],
-        },
+      await addApproveBlocks(
+        inviteBlocks,
+        resp.invites[i],
+        currentInvite,
+        "",
+        "",
       );
     } else {
-      let channelID = resp.invites[i].channel.id;
-      let inviteID = resp.invites[i].invite.id;
-      let channelName = resp.invites[i].channel.name;
-      let acceptStr = inviteID + "," + channelName + "," + channelID + "," +
-        userID;
-
-      inviteBlocks.push(divider);
-      inviteBlocks.push(
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `<${resp.invites[i].invite.link}|Invite ${
-              resp.invites[i].invite.id
-            }> \n Invitation to: ${email} \n Inviting Team: ${
-              resp.invites[i].invite.inviting_team.name
-            } \n Inviting User: ${
-              resp.invites[i].invite.inviting_user.name
-            } \n Channel Name: ${
-              resp.invites[i].channel.name
-            } \n Status: Not yet accepted`,
-          },
-        },
-        {
-          "type": "actions",
-          "elements": [
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Accept",
-                "emoji": true,
-              },
-              "value": acceptStr,
-              "action_id": "accept_action",
-              "style": "primary",
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Ignore",
-                "emoji": true,
-              },
-              "value": currentInvite.invite.id,
-              "action_id": "deny_action",
-              "confirm": {
-                "title": {
-                  "type": "plain_text",
-                  "text": "Are you sure?",
-                },
-                "text": {
-                  "type": "mrkdwn",
-                  "text":
-                    "Do you want to ignore this Slack Connect invitation?",
-                },
-                "confirm": {
-                  "type": "plain_text",
-                  "text": "Yes",
-                },
-                "deny": {
-                  "type": "plain_text",
-                  "text": "No",
-                },
-              },
-            },
-            {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Upload file",
-                "emoji": true,
-              },
-              "value": currentInvite.invite.id,
-              "action_id": "upload_action",
-            },
-          ],
-        },
+      await addAcceptBlocks(
+        inviteBlocks,
+        resp.invites[i],
+        currentInvite,
+        "",
+        "",
       );
     }
   }
@@ -364,4 +310,4 @@ const listInvites = async (client, userID) => {
   return inviteBlocks;
 };
 
-module.exports = { uploadBlocks, addFile, listInvites };
+module.exports = { addFile, listInvites, addApproveBlocks, addAcceptBlocks };

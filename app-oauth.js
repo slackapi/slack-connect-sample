@@ -1,14 +1,12 @@
 const { App, LogLevel } = require('@slack/bolt');
 const { config } = require('dotenv');
 const { registerListeners } = require('./listeners');
-const dbUtils = require('./utils/db-utils.js')
-console.log('hello')
+const dbUtils = require('./utils/db-utils')
 let connection = dbUtils.connect()
 config();
 
 // For development purposes only
 const tempDB = new Map();
-console.log('hello2')
 
 const app = new App({
   logLevel: LogLevel.DEBUG,
@@ -25,7 +23,7 @@ const app = new App({
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
         console.log('do we go in here? ')
         
-         const newUser = new dbUtils.Users({ 
+         const newUser = new dbUtils.User({ 
           _id: Math.random(),
           team: { id: installation.team.id, name: installation.team.name  },
           enterprise: { id: installation.enterprise.id, name:  installation.enterprise.name},
@@ -51,8 +49,11 @@ const app = new App({
       if (installation.team !== undefined) {
         console.log('installation.team !== undefined ')
         
-        // return tempDB.set(installation.team.id, installation);
-        const newUser = new dbUtils.Users({ 
+        // const doc = await dbUtils.User.findOne({id: installation.team.id});
+        console.log('before find one')
+        const doc = await dbUtils.User.find({_id: installation.team.id});
+        if (!doc.length) {
+        const newUser = new dbUtils.User({ 
           _id: installation.team.id,
           team: { id: installation.team.id, name: installation.team.name  },
           //leave enterprise id out for now
@@ -70,13 +71,8 @@ const app = new App({
             id: installation.bot.id
           }
         });
-        
-        let query = { /* query */ };
-        let update = {expire: new Date()};
-        let options = {upsert: true, new: true, setDefaultsOnInsert: true};
-        let resp = await dbUtils.Users.findOneAndUpdate(query, update, options);
-        console.log('resp after new storing single team install: ')
-        console.log(resp)
+        let newUserResp = await newUser.save()
+        } else {return}
         return
       }
       throw new Error('Failed saving installation data to installationStore');
@@ -94,8 +90,9 @@ const app = new App({
         // let something = await tempDB.get(installQuery.teamId);
         // console.log('something: ')
         // console.log(something)
-        let user = await dbUtils.Users.find({ _id: installQuery.teamId});
-                console.log('user: ')
+        console.log(installQuery)
+        let user = await dbUtils.User.find({ _id: installQuery.teamId});
+        console.log('user: ')
         console.log(user)
         if (user[0]!= undefined){
           return user[0]

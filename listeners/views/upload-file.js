@@ -4,7 +4,6 @@ let utils = require("../../utils/utils.js");
 
 const uploadFileCallback = async ({ ack, view, body, client }) => {
   try {
-    await ack();
 
     let userID = body.user.id;
     let inviteID = body.view.private_metadata;
@@ -23,6 +22,7 @@ const uploadFileCallback = async ({ ack, view, body, client }) => {
 
     // concat the old blocks (i.e. home blocks) with the invite blocks
     let newBlocks = await homeblocks.concat(inviteBlocks);
+    await ack();
 
     const result = await client.views.publish({
       user_id: userID,

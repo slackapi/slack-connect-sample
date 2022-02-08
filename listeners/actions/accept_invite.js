@@ -10,16 +10,6 @@ const acceptInvite = async ({ ack, client, action, body }) => {
     let inviteId = acceptInfo[0];
     let channelName = acceptInfo[1];
     let channelId = acceptInfo[2];
-    let userId = acceptInfo[3];
-
-    console.log("inviteId: ");
-    console.log(inviteId);
-    console.log("channelName: ");
-    console.log(channelName);
-    console.log("channelId: ");
-    console.log(channelId);
-    console.log("userId: ");
-    console.log(userId);
 
     console.log("before accept shared invite API call");
 
