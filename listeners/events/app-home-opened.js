@@ -5,7 +5,7 @@ const appHomeOpenedCallback = async ({ client, event, body }) => {
   if (event.tab !== "home") return;
 
   let homeBlocks = await homeView.homeBlocks(event.user);
-
+	await ack();
   try {
     await client.views.publish({
       user_id: event.user,

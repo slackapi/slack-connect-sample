@@ -10,8 +10,8 @@ const addFile = async (inviteID, fileURL, client, userID) => {
   let numInvites;
 
   //Slack API cannot have over 100 blocks in one view
-  if (resp.invites.length > 60) {
-    numInvites = 60;
+  if (resp.invites.length > 100) {
+    numInvites = 100;
   } else {
     numInvites = resp.invites.length;
   }
@@ -53,13 +53,13 @@ const addFile = async (inviteID, fileURL, client, userID) => {
       let channelID = resp.invites[i].channel.id;
       let inviteID = resp.invites[i].invite.id;
       let channelName = resp.invites[i].channel.name;
-      let acceptStr = inviteID + "," + channelName + "," + channelID + "," +
+      let acceptArg = inviteID + "," + channelName + "," + channelID + "," +
         userID;
 
       inviteBlocks.push(divider);
       await addAcceptBlocks(
         inviteBlocks,
-        acceptStr,
+        acceptArg,
         currentInvite,
         fileURL,
         blockText,
@@ -77,13 +77,12 @@ const addApproveBlocks = async (
   fileURL,
   blockText,
 ) => {
+  console.log(inviteInfo)
   let sectionWithFile;
-  let channelID = inviteInfo.channel.id;
-  let inviteID = inviteInfo.invite.id;
-  let channelNameFromInvInfo = inviteInfo.channel.name;
+  let inviteID= await inviteInfo.invite.id;
+  let targetTeam = await inviteInfo.acceptances[0].accepting_team.id;
 
-  let acceptStr = inviteID + "," + channelNameFromInvInfo + "," + channelID +
-    ",";
+  let approveArgs = inviteID + "," + targetTeam + ","
 
   if (fileURL.length > 0 && blockText.length > 0) {
     sectionWithFile = {
@@ -117,7 +116,7 @@ const addApproveBlocks = async (
             "text": "Approve",
             "emoji": true,
           },
-          "value": acceptStr,
+          "value": approveArgs,
           "action_id": "approve_action",
           "style": "primary",
         },
@@ -128,7 +127,7 @@ const addApproveBlocks = async (
             "text": "Deny",
             "emoji": true,
           },
-          "value": acceptStr,
+          "value": approveArgs,
           "action_id": "deny_action",
           "style": "danger",
           "confirm": {
@@ -179,7 +178,7 @@ const addAcceptBlocks = async (
   let inviteID = inviteInfo.invite.id;
   let channelNameFromInvInfo = inviteInfo.channel.name;
 
-  let acceptStr = inviteID + "," + channelNameFromInvInfo + "," + channelID +
+  let acceptArgs = inviteID + "," + channelNameFromInvInfo + "," + channelID +
     ",";
 
   if (fileURL.length > 0 && blockText.length > 0) {
@@ -213,7 +212,7 @@ const addAcceptBlocks = async (
             "text": "Accept",
             "emoji": true,
           },
-          "value": acceptStr,
+          "value": acceptArgs,
           "action_id": "accept_action",
           "style": "primary",
         },

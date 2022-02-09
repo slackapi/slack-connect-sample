@@ -6,12 +6,16 @@ const approveInvite = async ({ ack, client, action, body }) => {
     await ack();
     let workspace;
 
+    console.log(action)
+
     //action.value is used to pass in info such as inviteID, userID, and teamID
     let text = action.value;
     let inviteInfo = text.split(",");
-    let awayTeam = inviteInfo[1];
     let inviteId = inviteInfo[0];
-    let userId = inviteInfo[2];
+    let awayTeam = inviteInfo[1];
+
+    console.log(inviteId)
+    console.log(awayTeam)
 
     // API call to approve the invite
     let approveResp = await client.conversations.approveSharedInvite({

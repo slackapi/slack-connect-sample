@@ -69,10 +69,10 @@ const inviteUserBlock = async () => {
     {
       "type": "input",
       "optional": true,
+      "block_id": "datepicker_input_block",
       "element": {
         "type": "datepicker",
-        "initial_date": "2022-02-02",
-        "action_id": "datepicker-action",
+        "action_id": "datepicker_actionID",
       },
       "label": {
         "type": "plain_text",
