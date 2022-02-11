@@ -37,14 +37,13 @@ const addFile = async (inviteID, fileURL, client, userID) => {
     if (currentInvite.acceptances != undefined) {
       if (currentInvite.acceptances[0].approval_status == "approved") continue;
 
-      let awayTeamName = currentInvite.acceptances[0].accepting_team.name;
       let awayTeamId = currentInvite.acceptances[0].accepting_team.id;
-      let newStr = currentInvite.invite.id + "," + awayTeamId + "," + userID +
+      let inviteInfo = currentInvite.invite.id + "," + awayTeamId + "," + userID +
         inviteBlocks.push(divider);
 
       await addApproveBlocks(
         inviteBlocks,
-        newStr,
+        inviteInfo,
         currentInvite,
         fileURL,
         blockText,

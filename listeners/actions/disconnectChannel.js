@@ -23,6 +23,7 @@ const disconnectChannel = async ({ ack, client, action, body }) => {
         },
       },
     });
+    console.log('does it ever reach here? in disconnectChannel action listener')
   } catch (error) {
     console.error(error);
   }

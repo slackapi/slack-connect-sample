@@ -2,9 +2,9 @@ let inviteModal = require("../views/invite-user-modal.js");
 
 const submitSharedChannelInvite = async ({ ack, client, action, body }) => {
   try {
-    await ack();
     console.log("inside submit channel invite");
     let inviteUserBlocks = await inviteModal.inviteUserBlock();
+    await ack();
 
     await client.views.open({
       trigger_id: body.trigger_id,

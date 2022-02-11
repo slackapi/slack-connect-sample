@@ -1,8 +1,15 @@
 let dbUtils = require("../../utils/db-utils.js");
 
+let homeView = require("./home-view.js");
+
 const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
   try {
-    await ack();
+
+    console.log('body: ')
+    console.log(body)
+    await ack({
+      "response_action": "clear",
+    }); 
 
     const providedValues = view.state.values;
     console.log(providedValues);
@@ -48,6 +55,7 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
 
     //send API request to send invite with email
     let resp;
+
     if (withEmail) {
       resp = await client.conversations.inviteShared({
         channel: selectedChannel,
@@ -73,6 +81,17 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
       );
       console.log(updateDBResp);
     }
+
+    let homeBlocks = await homeView.homeBlocks(body.user.id);
+    
+    await client.views.publish({
+      user_id: body.user.id,
+      view: {
+        "type": "home",
+        "blocks": homeBlocks,
+        "external_id": "homeView",
+      },
+    });
 
     return;
   } catch (error) {

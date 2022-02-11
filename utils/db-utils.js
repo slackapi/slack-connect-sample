@@ -56,9 +56,6 @@ const inviteSchema = mongoose.Schema(
     exp_date: String,
     isIgnored: Boolean,
     externalFileURL: String,
-    //exp date
-    //isIgnored
-    //??
   },
   { _id: false },
 );

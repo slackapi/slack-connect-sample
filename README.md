@@ -1,9 +1,8 @@
-# Bolt for JavaScript Template App
+# Slack Connect Admin App
 
-This is a generic Bolt for JavaScript template app used to build out Slack apps.
+This project aims to speed up the time to understand & implement an app using [Slack Connect APIs](https://api.slack.com/apis/connect).
 
-Before getting started, make sure you have a development workspace where you have permissions to install apps. If you don’t have one setup, go ahead and [create one](https://slack.com/create).
-## Installation
+It is meant to be a blueprint app which others can take and build their own automations into.
 
 #### Create a Slack App
 1. Open [https://api.slack.com/apps/new](https://api.slack.com/apps/new) and choose "From an app manifest"

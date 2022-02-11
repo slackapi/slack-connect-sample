@@ -1,9 +1,17 @@
 const { App, LogLevel } = require('@slack/bolt');
 const { config } = require('dotenv');
 const { registerListeners } = require('./listeners');
-const dbUtils = require('./utils/db-utils')
+const dbUtils = require('./utils/db-utils.js')
+
+try {
 let connection = dbUtils.connect()
 config();
+} 
+
+catch(error) {
+
+}
+
 
 // For development purposes only
 const tempDB = new Map();
@@ -14,7 +22,7 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: 'my-state-secret',
-  scopes: ['channels:history', 'chat:write', 'commands'],
+  scopes: ['channels:history', 'chat:write', 'commands', 'remote_files:write'],
   installationStore: {
     storeInstallation: async (installation) => {
       console.log('installation: ')
@@ -94,6 +102,7 @@ const app = new App({
         let user = await dbUtils.User.find({ _id: installQuery.teamId});
         console.log('user: ')
         console.log(user)
+        console.log(user[0].bot.scopes)
         if (user[0]!= undefined){
           return user[0]
         }
