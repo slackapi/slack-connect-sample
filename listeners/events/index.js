@@ -1,4 +1,4 @@
-const { appHomeOpenedCallback } = require('./app-home-opened');
+const { appHomeOpenedCallback } = require('./app_home_opened');
 const { sharedChannelInviteAccepted } = require('./sc_invite_accepted');
 const { sharedChannelInviteApproved } = require('./sc_invite_approved');
 const { sharedChannelInviteDeclined } = require('./sc_invite_declined');

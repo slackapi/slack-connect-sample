@@ -1,4 +1,4 @@
-let dbUtils = require("./db-utils.js");
+let dbUtils = require("./db_utils.js");
 const addFile = async (inviteID, fileURL, client, userID) => {
   let resp = await client.conversations.listConnectInvites();
 

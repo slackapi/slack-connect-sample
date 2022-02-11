@@ -1,4 +1,4 @@
-let disconnectModal = require("../views/disconnect-channel-modal.js");
+let disconnectModal = require("../views/disconnect_channel_modal.js");
 
 const disconnectChannel = async ({ ack, client, action, body }) => {
   try {

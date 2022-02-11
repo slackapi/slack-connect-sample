@@ -1,5 +1,5 @@
 // const { confirmInviteCallback } = require('./confirm-invite');
-let homeView = require("./home-view.js")
+let homeView = require("./home_view.js")
 let utils = require("../../utils/utils.js")
 
 

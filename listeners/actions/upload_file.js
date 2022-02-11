@@ -1,4 +1,4 @@
-let uploadModal = require("../views/upload-file-modal.js");
+let uploadModal = require("../views/upload_file_modal.js");
 
 const uploadFile = async ({ ack, client, action, body }) => {
   try {

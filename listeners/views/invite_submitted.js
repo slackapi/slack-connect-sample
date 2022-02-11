@@ -1,6 +1,6 @@
-let dbUtils = require("../../utils/db-utils.js");
+let dbUtils = require("../../utils/db_utils.js");
 
-let homeView = require("./home-view.js");
+let homeView = require("./home_view.js");
 
 const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
   try {

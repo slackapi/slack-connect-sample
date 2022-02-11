@@ -1,7 +1,7 @@
 const { App, LogLevel } = require('@slack/bolt');
 const { config } = require('dotenv');
 const { registerListeners } = require('./listeners');
-const dbUtils = require('./utils/db-utils.js')
+const dbUtils = require('./utils/db_utils.js')
 
 try {
 let connection = dbUtils.connect()

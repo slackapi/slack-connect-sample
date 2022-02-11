@@ -1,4 +1,4 @@
-let inviteModal = require("../views/invite-user-modal.js");
+let inviteModal = require("../views/invite_user_modal.js");
 
 const submitSharedChannelInvite = async ({ ack, client, action, body }) => {
   try {

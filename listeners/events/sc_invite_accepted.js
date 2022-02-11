@@ -1,4 +1,4 @@
-let homeView = require("../views/home-view.js");
+let homeView = require("../views/home_view.js");
 let utils = require("../../utils/utils.js");
 
 const sharedChannelInviteAccepted = async (

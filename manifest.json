@@ -1,58 +1,59 @@
 {
-    "_metadata": {
-        "major_version": 1,
-        "minor_version": 1
-    },
     "display_information": {
-        "name": "Bolt Template App"
+        "name": "Slack Connect Admin App",
+        "description": "Streamline administration of Slack Connect Channels via APIs.",
+        "background_color": "#ccff66"
     },
     "features": {
         "app_home": {
             "home_tab_enabled": true,
-            "messages_tab_enabled": false,
-            "messages_tab_read_only_enabled": true
+            "messages_tab_enabled": true,
+            "messages_tab_read_only_enabled": false
         },
         "bot_user": {
-            "display_name": "Bolt Template App",
-            "always_online": false
-        },
-        "shortcuts": [
-            {
-                "name": "Run sample shortcut",
-                "type": "global",
-                "callback_id": "sample_shortcut_id",
-                "description": "Runs a sample shortcut"
-            }
-        ],
-        "slash_commands": [
-            {
-                "command": "/sample-command",
-                "description": "Runs a sample command",
-                "should_escape": false
-            }
-        ]
+            "display_name": "Slack Connect Bot",
+            "always_online": true
+        }
     },
     "oauth_config": {
+        "redirect_urls": [
+            "https://bolt-template-slack-connect.glitch.me/slack/oauth_redirect"
+        ],
         "scopes": {
+            "user": [
+                "admin.conversations:write"
+            ],
             "bot": [
                 "channels:history",
-                "chat:write",
-                "commands"
+                "channels:manage",
+                "commands",
+                "conversations.connect:manage",
+                "conversations.connect:read",
+                "conversations.connect:write",
+                "remote_files:write",
+                "users:read",
+                "users:read.email"
             ]
         }
     },
     "settings": {
         "event_subscriptions": {
+            "request_url": "https://9dcd-98-51-61-120.ngrok.io/slack/events",
             "bot_events": [
                 "app_home_opened",
-                "message.channels"
+                "message.channels",
+                "shared_channel_invite_accepted",
+                "shared_channel_invite_approved",
+                "shared_channel_invite_declined",
+                "shared_channel_invite_received"
             ]
         },
         "interactivity": {
-            "is_enabled": true
+            "is_enabled": true,
+            "request_url": "https://9dcd-98-51-61-120.ngrok.io/slack/events"
         },
         "org_deploy_enabled": false,
-        "socket_mode_enabled": true,
+        "socket_mode_enabled": false,
         "token_rotation_enabled": false
     }
 }
