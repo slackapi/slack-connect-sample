@@ -1,8 +1,8 @@
-# Bolt for JavaScript Template App
+# Slack Connect Admin App
 
-This is a generic Bolt for JavaScript template app used to build out Slack apps.
+This project aims to speed up the time to understand & implement an app using Slack Connect APIs.
 
-Before getting started, make sure you have a development workspace where you have permissions to install apps. If you don’t have one setup, go ahead and [create one](https://slack.com/create).
+It is meant to be a blueprint app which others can take and build their own automations into.
 
 ## Installation
 
@@ -20,7 +20,11 @@ Before you can run the app, you'll need to store some environment variables.
 
 1. Copy `.env.sample` to `.env`
 2. Open your apps configuration page from [this list](https://api.slack.com/apps), click _OAuth & Permissions_ in the left hand menu, then copy the _Bot User OAuth Token_ into your `.env` file under `SLACK_BOT_TOKEN`
-3. Click _Basic Information_ from the left hand menu and follow the steps in the _App-Level Tokens_ section to create an app-level token with the `connections:write` scope. Copy that token into your `.env` as `SLACK_APP_TOKEN`.
+3. Click _Basic Information_ from the left hand menu. There, in the `App Credentials` you should see your `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, and `SLACK_SIGNING_SECRET`. Click on `Show` and copy and paste those values into your `.env` file.
+4. This app uses MongoDB (free version). You'll need to provide your MongoDB in the `.env` file: `DB_USERNAME` and `DB_PASSWORD`.
+
+> Don't forget to save your `.env` and then run 
+```source .env``` to set your env variables. 
 
 #### Install Dependencies
 
@@ -29,7 +33,7 @@ Before you can run the app, you'll need to store some environment variables.
 #### Run Bolt Server
 
 `npm start`
-
+<!-- 
 ## Project Structure
 
 ### `manifest.json`
@@ -66,14 +70,14 @@ Navigate to **OAuth & Permissions** in your app configuration and click **Add a 
 
 ```
 https://3cb89939.ngrok.io/slack/oauth_redirect
-```
+``` -->
 
 # Steps
 
 1. [Configure Interactivity, Events, and Redirect URLs](#step-1-configure-interactivity-events-and-redirect-URLs)
 2. [Install the App](#step-2-install-the-app)
-3. [Install Contract](#step-3-install-contract)
-4. [Instantiate Contract](#step-4-Instantiate-contract)
+3. [Add the App to a Channel](#step-3-install-contract)
+4. [Send a Slack Connect Invite using the App](#step-4-Instantiate-contract)
 5. [Export Connection Details](#step-5-export-connection-details)
 6. [Run the App](#step-5-run-the-app) 
 
