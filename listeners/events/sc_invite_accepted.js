@@ -7,7 +7,6 @@ const sharedChannelInviteAccepted = async (
   console.log('shared invite accepted')
   let userID = body.event.accepting_user.id;
   let homeblocks = await homeView.homeBlocks();
-  await ack();
   let inviteBlocks = await utils.listInvites(client, userID);
   let newBlocks = await homeblocks.concat(inviteBlocks);
 

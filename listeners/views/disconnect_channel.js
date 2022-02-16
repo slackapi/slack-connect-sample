@@ -10,6 +10,9 @@ const disconnectChannelCallback = async ({ ack, view, body, client }) => {
   console.log(providedValues);
   console.log(channel);
   console.log("process.env.SLACK_USER_TOKEN");
+  console.log('body: ')
+  console.log(body)
+  let leaving_team_ids = 'T02RSDVSQ6L'
 
   console.log(process.env.SLACK_USER_TOKEN);
   try {
@@ -17,6 +20,7 @@ const disconnectChannelCallback = async ({ ack, view, body, client }) => {
     let disconnect_resp = await client.admin.conversations.disconnectShared({
       token: process.env.SLACK_USER_TOKEN,
       channel_id: channel,
+      leaving_team_ids
     });
 
   } catch (error) {

@@ -107,6 +107,9 @@ const saveInvite = async function (invite) {
         },
       }],
       reviews: [{ type: "null", reviewing_team: { id: "null", name: "null" } }],
+      exp_date: 'test',
+      isIgnored: false,
+      externalFileURL: 'testExternalURL',
     });
   } else {
     acceptance = "no acceptance";
@@ -132,6 +135,10 @@ const saveInvite = async function (invite) {
         is_im: invite.channel.is_im,
         name: invite.channel.name,
       },
+      reviews: [{ type: "null", reviewing_team: { id: "null", name: "null" } }],
+      exp_date: 'test',
+      isIgnored: false,
+      externalFileURL: 'testExternalURL',
     });
   }
   let resp = Invite.findByIdAndUpdate(invite.invite.id, newInvite, {

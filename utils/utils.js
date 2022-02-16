@@ -262,13 +262,15 @@ const addAcceptBlocks = async (
 
 const listInvites = async (client, userID) => {
   let resp = await client.conversations.listConnectInvites();
+  console.log('resp length: ')
+  console.log(resp.invites.length)
 
   let inviteBlocks = [];
   let numInvites;
 
   //Slack API cannot have over 100 blocks in one view
-  if (resp.invites.length > 60) {
-    numInvites = 60;
+  if (resp.invites.length > 100) {
+    numInvites = 100;
   } else {
     numInvites = resp.invites.length;
   }

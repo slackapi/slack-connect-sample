@@ -2,16 +2,11 @@ const { App, LogLevel } = require('@slack/bolt');
 const { config } = require('dotenv');
 const { registerListeners } = require('./listeners');
 const dbUtils = require('./utils/db_utils.js')
-
-try {
+const scopes = require('./manifest.json')
+const botScopes = scopes.oauth_config.scopes.bot
+const userScopes = scopes.oauth_config.scopes.user
+console.log('hi')
 let connection = dbUtils.connect()
-config();
-} 
-
-catch(error) {
-
-}
-
 
 // For development purposes only
 const tempDB = new Map();
@@ -22,7 +17,17 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: 'my-state-secret',
-  scopes: ['channels:history', 'chat:write', 'commands', 'remote_files:write'],
+  scopes: [
+    'channels:history',
+    'channels:manage',
+    'commands',
+    'conversations.connect:manage',
+    'conversations.connect:read',
+    'conversations.connect:write',
+    'remote_files:write',
+    'users:read',
+    'users:read.email'
+  ],
   installationStore: {
     storeInstallation: async (installation) => {
       console.log('installation: ')
@@ -41,7 +46,7 @@ const app = new App({
           appId: installation.appId,
           authVersion: installation.authVersion,
           bot: {
-            scopes: installation.bot.scopes, 
+            scopes: botScopes, 
             token: installation.bot.token,
             userId:installation.bot.userId,
             id: installation.bot.id
@@ -73,7 +78,7 @@ const app = new App({
           appId: installation.appId,
           authVersion: installation.authVersion,
           bot: {
-            scopes: installation.bot.scopes, 
+            scopes: botScopes, 
             token: installation.bot.token,
             userId:installation.bot.userId,
             id: installation.bot.id
@@ -86,6 +91,9 @@ const app = new App({
       throw new Error('Failed saving installation data to installationStore');
     },
     fetchInstallation: async (installQuery) => {
+      console.log('install options')
+
+      console.log('installQuery: ')
       console.log(installQuery)
       // Org-wide installation lookup
       if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
@@ -114,7 +122,7 @@ const app = new App({
   installerOptions: {
     // If true, /slack/install redirects installers to the Slack Authorize URL
     // without rendering the web page with "Add to Slack" button
-    directInstall: false,
+    directInstall: true,
   },
 });
 

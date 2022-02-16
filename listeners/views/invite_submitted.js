@@ -95,7 +95,7 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
 
     return;
   } catch (error) {
-    console.error(error);
+    throw new Error(error)
   }
 };
 

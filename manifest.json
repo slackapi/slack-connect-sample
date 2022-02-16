@@ -26,7 +26,6 @@
             "bot": [
                 "channels:history",
                 "channels:manage",
-                "commands",
                 "conversations.connect:manage",
                 "conversations.connect:read",
                 "conversations.connect:write",
