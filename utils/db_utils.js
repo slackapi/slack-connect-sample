@@ -19,7 +19,7 @@ const usersSchema = mongoose.Schema(
     _id: String,
     team: { id: String, name: String },
     enterprise: { id: String, name: String },
-    user: { token: String, scopes: String, id: String },
+    user: { token: String, scopes: [String], id: String },
     tokenType: String,
     isEnterpriseInstall: Boolean,
     appId: String,
@@ -163,6 +163,49 @@ const getToken = async function (users, teamId, enterpriseId) {
   return;
 };
 
+const saveUserOrgInstall = async function (installation) {
+
+  let resp = await User.updateOne(
+    { _id: installation.enterprise.id },
+    {
+      team: 'null',
+      enterprise: { id: installation.enterprise.id, name:  installation.enterprise.name},
+      user: { token: installation.user.token, scopes: installation.user.scopes, id: installation.user.id },
+      tokenType: installation.tokenType,
+      isEnterpriseInstall: installation.isEnterpriseInstall,
+      appId: installation.appId,
+      authVersion: installation.authVersion,
+      bot: "null"
+    },
+    { upsert: true })
+  
+};
+
+const saveUserWorkspaceInstall = async function (installation) {
+
+  let resp = await User.updateOne(
+    { _id: installation.team.id },
+    {
+        team: { id: installation.team.id, name: installation.team.name  },
+        //leave enterprise id out for now
+        enterprise: { id: 'null', name:  'null'},
+        //leave user scopes out for now, may want to re implmement this later
+        user: { token: 'null', scopes: 'null', id: installation.user.id },
+        tokenType: installation.tokenType,
+        isEnterpriseInstall: installation.isEnterpriseInstall,
+        appId: installation.appId,
+        authVersion: installation.authVersion,
+        bot: {
+          scopes: installation.bot.scopes, 
+          token: installation.bot.token,
+          userId:installation.bot.userId,
+          id: installation.bot.id
+        }
+    },
+    { upsert: true })
+  
+};
+
 module.exports = {
   connect,
   User,
@@ -170,4 +213,6 @@ module.exports = {
   getUsers,
   getToken,
   saveInvite,
+  saveUserOrgInstall,
+  saveUserWorkspaceInstall
 };

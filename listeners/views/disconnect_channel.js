@@ -1,3 +1,4 @@
+let dbUtils = require('../../utils/db_utils')
 const disconnectChannelCallback = async ({ ack, view, body, client }) => {
   console.log("disconnect view callback");
   await ack({
@@ -6,21 +7,22 @@ const disconnectChannelCallback = async ({ ack, view, body, client }) => {
   let channel =
     providedValues.channel_select_block.channels_select_actionID
       .selected_channel;
-  console.log("providedValues");
-  console.log(providedValues);
-  console.log(channel);
-  console.log("process.env.SLACK_USER_TOKEN");
-  console.log('body: ')
-  console.log(body)
-  let leaving_team_ids = 'T02RSDVSQ6L'
 
-  console.log(process.env.SLACK_USER_TOKEN);
+  let user = await dbUtils.User.find({ isEnterpriseInstall: true});
+
+  let userToken;
+  for (let i = 0; i < user.length; i++) {
+    if (user[i].user.id == body.user.id) {
+      console.log('found a user with that has enterprise token')
+      userToken = await user[i].user.token
+    }
+  }
+
   try {
 
     let disconnect_resp = await client.admin.conversations.disconnectShared({
-      token: process.env.SLACK_USER_TOKEN,
+      token: userToken,
       channel_id: channel,
-      leaving_team_ids
     });
 
   } catch (error) {

@@ -105,7 +105,7 @@ Great job! You're now ready to install the app using Slack's OAuth process.
 Watch the video below to understand how to install the app. Note that the video is showing the install path from a Glitch URL. 
 The base URL will always we different, based on if you are using Ngrok or Glitch, and depending on what your app is named on Glitch.
 
-[![](https://user-images.githubusercontent.com/10428517/154159350-3e5ab314-d9f9-4c38-8d8a-122751d1cc51.png)](https://user-images.githubusercontent.com/10428517/154154908-35697278-5f11-4bdc-afdd-c7d3e0538b80.mp4)
+[![Install App via OAuth](https://user-images.githubusercontent.com/10428517/154159350-3e5ab314-d9f9-4c38-8d8a-122751d1cc51.png)](https://user-images.githubusercontent.com/10428517/154154908-35697278-5f11-4bdc-afdd-c7d3e0538b80.mp4)
 
 
 Next, navigate to your install endpoint. Since we are using Bolt, this endpoint is automatically created for us from the Bolt package. 
@@ -151,7 +151,7 @@ Leave the rest of the sections blank. Before you click on `Invite` your invite s
 
 Click on `Invite`.
 
-## Step 4. Accept the Slack Connect Invite
+## Step 5. Accept the Slack Connect Invite
 
 Now, click on `List Invitations`. You should see the invitation which you've just created now show up. 
 
@@ -163,15 +163,16 @@ click on `Join Channel`.
 Now, if you click on `View Invitations again` you should see that the buttons have changed. Instead of seeing `Accept` and `Ignore`you will
 now see `Approve` and `Deny`. 
 
-## Step 5. Approve the Slack Connect Invite
+## Step 6. Approve the Slack Connect Invite
 
-Now, let's approve the invite. Click on the green `Approve` button next to the invite. 
+Now, let's approve the invite. Click on the green `Approve` button next to the invite. After a few seconds, you should see that invite dissapear and then a 
+new channel `test_sc_app` will be added under the `Connections` tab. 
 
-That's it! You've now sucessfully approved a Slack Connect channel using the Slack Connect APIs! Great job! 🎉🎉
-
-
-
-
+## Step 7. Disconnect the Channel
+Lastly, let's disconnect a channel when we are done using it. Click on the 
+`Disconnect Channels` button. Select the channel `test_sc_app` and then 
+click on `Disconnect`. 
+Within a few seconds, you should see that channel move from the `Connections` section of the sidebar, to the `Channels` section
 
 
 
