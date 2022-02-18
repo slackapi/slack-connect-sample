@@ -1,12 +1,10 @@
-let dbUtils = require("../../utils/db_utils.js");
+let model = require("../../database/db_model.js");
 
 let homeView = require("./home_view.js");
 
 const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
   try {
 
-    console.log('body: ')
-    console.log(body)
     await ack({
       "response_action": "clear",
     }); 
@@ -32,11 +30,6 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
       datePicked = await providedValues.datepicker_input_block
         .datepicker_actionID.selected_date;
     }
-
-    console.log("selected Channel");
-    console.log(selectedChannel);
-    console.log(userID);
-    console.log(datePicked);
 
     let withEmail = true;
     console.log(userID);
@@ -70,11 +63,9 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
       });
     }
 
-    console.log("resp after inviteShared");
-    console.log(resp);
     if (datePicked) {
       await dbUtils.connect();
-      let updateDBResp = await dbUtils.Invite.findByIdAndUpdate(
+      let updateDBResp = await model.Invite.findByIdAndUpdate(
         resp.invite_id,
         { exp_date: datePicked },
         { upsert: true },

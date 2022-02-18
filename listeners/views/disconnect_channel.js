@@ -1,4 +1,4 @@
-let dbUtils = require('../../utils/db_utils')
+let model = require('../../database/db_model')
 const disconnectChannelCallback = async ({ ack, view, body, client }) => {
   console.log("disconnect view callback");
   await ack({
@@ -8,7 +8,7 @@ const disconnectChannelCallback = async ({ ack, view, body, client }) => {
     providedValues.channel_select_block.channels_select_actionID
       .selected_channel;
 
-  let user = await dbUtils.User.find({ isEnterpriseInstall: true});
+  let user = await model.User.find({ isEnterpriseInstall: true});
 
   let userToken;
   for (let i = 0; i < user.length; i++) {

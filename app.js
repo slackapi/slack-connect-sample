@@ -1,12 +1,16 @@
 const { App, LogLevel } = require('@slack/bolt');
 const { registerListeners } = require('./listeners');
-const dbUtils = require('./utils/db_utils.js')
+const orgInstall = require('./database/auth/store-user-org-install')
+const workspace_auth = require('./database/auth/store-user-workspace-install')
 const html = require('./templates')
-dbUtils.connect()
+const db = require('./database/db')
+let model = require('./database/db_model')
+const customRoutes = require('./utils/custom_routes')
+db.connect()
 
 // For development purposes only
 const tempDB = new Map();
-
+console.log(customRoutes)
 const app = new App({
   logLevel: LogLevel.DEBUG,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -15,21 +19,21 @@ const app = new App({
   stateSecret: 'horea-is-a-human',
   customRoutes: [
     {
-      path: '/slack/install/org_admin_install',
-      method: ['GET'],
+      path: "/slack/install/",
+      method: ["GET"],
       handler: (req, res) => {
         res.writeHead(200);
-        res.end(html.orgAdminInstall)
+        res.end(html.normalInstall);
       },
     },
     {
-      path: '/slack/install/',
-      method: ['GET'],
-      handler: (req, res) => {
-        res.writeHead(200);
-        res.end(html.workspaceInstall)
+        path: "/slack/install/userToken",
+        method: ["GET"],
+        handler: (req, res) => {
+          res.writeHead(200);
+          res.end(html.userTokenInstall);
+        },
       },
-    },
   ],
   installerOptions: {
     stateVerification: false,
@@ -39,11 +43,10 @@ const app = new App({
 
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
           console.log('you should only install after you have installed this app on the workspace level')
-          return (await dbUtils.saveUserOrgInstall(installation))
+          return await orgInstall(installation)
       }
-      // Single team installation
       if (installation.team !== undefined) {
-        return (await dbUtils.saveUserWorkspaceInstall(installation))
+        return await workspace_auth.saveUserWorkspaceInstall(installation)
       }
       throw new Error('Failed saving installation data to installationStore');
     },
@@ -56,9 +59,9 @@ const app = new App({
       }
       if (installQuery.teamId !== undefined) {
 
-        let user = await dbUtils.User.find({ _id: installQuery.teamId});
-        console.log('user: ')
-        console.log(user)
+        let user = await model.User.find({ _id: installQuery.teamId});
+        // console.log('user: ')
+        // console.log(user)
         if (user[0]!= undefined){
           return user[0]
         }

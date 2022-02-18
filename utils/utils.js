@@ -1,4 +1,4 @@
-let dbUtils = require("./db_utils.js");
+let dbUtils = require("../database/db.js");
 const addFile = async (inviteID, fileURL, client, userID) => {
   let resp = await client.conversations.listConnectInvites();
 
@@ -276,8 +276,6 @@ const listInvites = async (client, userID) => {
   }
 
   for (let i = 0; i < numInvites; i++) {
-    let savedInvite = dbUtils.saveInvite(resp.invites[i]);
-
     let currentInvite = await resp.invites[i];
 
     if (
