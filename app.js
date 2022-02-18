@@ -4,6 +4,7 @@ const orgInstall = require("./database/auth/store-user-org-install");
 const workspace_auth = require("./database/auth/store-user-workspace-install");
 const html = require("./templates");
 const db = require("./database/db");
+const dbQuery = require("./database/find_user");
 let model = require("./database/db_model");
 db.connect();
 
@@ -57,17 +58,10 @@ const app = new App({
         installQuery.isEnterpriseInstall &&
         installQuery.enterpriseId !== undefined
       ) {
-        let user = await model.User.find({ _id: installQuery.teamId });
-        if (user[0] != undefined) {
-          return user[0];
-        }
-        return;
+        return await dbQuery.findUser(installQuery.enterpriseId)
       }
       if (installQuery.teamId !== undefined) {
-        let user = await model.User.find({ _id: installQuery.teamId });
-        if (user[0] != undefined) {
-          return user[0];
-        }
+        return await dbQuery.findUser(installQuery.teamId)
       }
       throw new Error("Failed fetching installation");
     },
