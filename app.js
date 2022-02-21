@@ -54,10 +54,7 @@ const app = new App({
     fetchInstallation: async (installQuery) => {
       console.log("inside fetchInstallation installQuery: ");
       console.log(installQuery);
-      if (
-        installQuery.isEnterpriseInstall &&
-        installQuery.enterpriseId !== undefined
-      ) {
+      if ( installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined ) {
         return await dbQuery.findUser(installQuery.enterpriseId)
       }
       if (installQuery.teamId !== undefined) {
