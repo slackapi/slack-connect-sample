@@ -4,9 +4,9 @@ const saveUserWorkspaceInstall = async function(installation) {
       {_id: installation.team.id},
       {
         team: {id: installation.team.id, name: installation.team.name},
-        // leave enterprise id out for now
+        // entperise id is null on workspace install
         enterprise: {id: 'null', name: 'null'},
-        // leave user scopes out for now, may want to re implmement this later
+        // user scopes + token is null on workspace install
         user: {token: 'null', scopes: 'null', id: installation.user.id},
         tokenType: installation.tokenType,
         isEnterpriseInstall: installation.isEnterpriseInstall,

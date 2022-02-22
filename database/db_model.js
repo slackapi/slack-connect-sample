@@ -60,7 +60,6 @@ const inviteSchema = mongoose.Schema(
 const User = mongoose.model('User', usersSchema);
 const Invite = mongoose.model('Invite', inviteSchema);
 
-
 module.exports = {
   User,
   Invite,
