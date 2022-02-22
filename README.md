@@ -108,7 +108,7 @@ Great job! You're now ready to install the app using Slack's OAuth process.
 
 ## Step 2. Install the App
 
-Watch the video below to understand how to install the app. Note that the video is showing the install path from a Ngrok URL. 
+Watch the video below **(sound on)** to understand how to install the app. Note that the video is showing the install path from a Ngrok URL. 
 The base URL will always we different, based on if you are using Ngrok or Glitch, and depending on what your app is named on Glitch / what forwarding address is used in Ngrok.
 
 [![Install App via OAuth](https://user-images.githubusercontent.com/10428517/154159350-3e5ab314-d9f9-4c38-8d8a-122751d1cc51.png)](https://user-images.githubusercontent.com/10428517/155203611-ffa7b69a-9b6d-40d1-a33e-9ba622c0dfcf.mov)
@@ -133,21 +133,19 @@ create a new channel, then we add the app to that channel.
 
 ## Step 4. Send a Slack Connect Invite using the App
 
-From there click on `Slack Connect Bot` from the `Apps` section of your sidebar on the left-hand side.
+Watch the video below to understand how to send an invite to a user outside of your current organization.
+First, click on the `Send Invites` button.
 
-Next, click on the `Home` tab of the app. There you should see three buttons, `Send Invites`, `View Invitations` and `Disconnect Channels`.
-
-Click on the `Send Invites` button.
-
-In the modal which pops up, choose the channel which you've just added the Slack Connect Admin App to.
+Then, in the modal which pops up, choose the channel which you've just added the Slack Connect Admin App to.
 
 In the email section, choose the email which coressponds to the workspace which you want to start a shared channel with.
 
-Leave the rest of the sections blank. Before you click on `Invite` your invite should look similar to the following: 
+Leave the rest of the sections blank and click on `Invite`. Lastly, click on `View Invitations` and you should see your 
+newly created inviation.
 
-[![](https://user-images.githubusercontent.com/10428517/154171627-50b690e9-84b0-4697-968c-cc3bb7b9f55e.png)]()
+[![Add App to Channel](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155223009-e03aa7c6-ba0c-46e6-9803-db90906e0138.mov)
 
-Click on `Invite`.
+
 
 ## Step 5. Accept the Slack Connect Invite
 
