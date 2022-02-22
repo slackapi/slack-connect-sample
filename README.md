@@ -165,7 +165,7 @@ Watch the video below **(sound on)** to understand how to approve the invite.
 
 [![approveInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155228571-f4a10314-f5bb-4af2-803e-3bcfd41145a9.mov)
 
-Click on the green `Approve` button next to the invite. After a few seconds, you should see that invite dissapear and then the `test_sc_app` channel will be added under the `Connections` tab, which means it's been shared outside of your own organization! 
+Click on the green `Approve` button next to the invite. After a few seconds, you should see that invite dissapear and then the `demo_sc_app` channel will be added under the `Connections` tab, which means it's been shared outside of your own organization! 
 
 ## Step 7. Disconnect the Channel
 
