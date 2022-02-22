@@ -172,7 +172,7 @@ Click on the green `Approve` button next to the invite. After a few seconds, you
 Watch the video below **(sound on)** to understand how to disconnect your shared channel. This will involve installing the app again, but this 
 time at the org level. 🚨You will also need to be an org owner / admin to be able to use this feature.🚨
 
-[![approveInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155229155-c8800be7-b10d-4bb5-8276-ad8345d2b21a.mov)
+[![disconnect](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155230983-046ff198-6017-410a-97d1-5ba311496b77.mp4)
 
 To disconnect a channel, we will need a special, [admin scope](https://api.slack.com/scopes/admin.conversations:write). The main difference between
 this scope and the other scopes we've requested in the past is that this endpoint reaches across 
