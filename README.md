@@ -4,7 +4,18 @@ This project aims to speed up the time to understand & implement an app using Sl
 
 It is meant to be a blueprint app which others can take and build their own automations into.
 
-## Installation
+# Steps
+0. [Installation](#step-0-Installation)
+1. [Configure Interactivity, Events, and Redirect URLs](#step-1-configure-interactivity-events-and-redirect-URLs)
+2. [Install the App](#step-2-install-the-app)
+3. [Add the App to a Channel](#step-3-add-the-app-to-a-channel)
+4. [Send a Slack Connect Invite](#step-4-send-a-slack-connect-invite)
+5. [Accept the Slack Connect Invite](#step-5-accept-the-slack-connect-invite)
+6. [Approve the Slack Connect Invite](#step-6-approve-the-slack-connect-invite)
+7. [Disconnect the Channel](#step-7-disconnect-the-channel) 
+8. [Conclusion](#conclusion) 
+
+## Step 0. Installation
 
 #### Create a Slack App
 
@@ -77,17 +88,6 @@ Navigate to **OAuth & Permissions** in your app configuration and click **Add a 
 ```
 https://3cb89939.ngrok.io/slack/oauth_redirect
 ``` -->
-
-# Steps
-
-1. [Configure Interactivity, Events, and Redirect URLs](#step-1-configure-interactivity-events-and-redirect-URLs)
-2. [Install the App](#step-2-install-the-app)
-3. [Add the App to a Channel](#step-3-add-the-app-to-a-channel)
-4. [Send a Slack Connect Invite](#step-4-send-a-slack-connect-invite)
-5. [Accept the Slack Connect Invite](#step-5-accept-the-slack-connect-invite)
-6. [Approve the Slack Connect Invite](#step-6-approve-the-slack-connect-invite)
-7. [Disconnect the Channel](#step-7-disconnect-the-channel) 
-8. [Conclusion](#conclusion) 
 
 ## Step 1. Configure Interactivity, Events, and Redirect URLs
 
