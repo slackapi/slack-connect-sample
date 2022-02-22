@@ -134,6 +134,9 @@ create a new channel, then we add the app to that channel.
 ## Step 4. Send a Slack Connect Invite using the App
 
 Watch the video below to understand how to send an invite to a user outside of your current organization.
+
+[![sendInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155223009-e03aa7c6-ba0c-46e6-9803-db90906e0138.mov)
+
 First, click on the `Send Invites` button.
 
 Then, in the modal which pops up, choose the channel which you've just added the Slack Connect Admin App to.
@@ -143,21 +146,19 @@ In the email section, choose the email which coressponds to the workspace which 
 Leave the rest of the sections blank and click on `Invite`. Lastly, click on `View Invitations` and you should see your 
 newly created inviation.
 
-[![Add App to Channel](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155223009-e03aa7c6-ba0c-46e6-9803-db90906e0138.mov)
-
-
 
 ## Step 5. Accept the Slack Connect Invite
+Watch the view below to understand how to accept the invite.
 
-Now, click on `List Invitations`. You should see the invitation which you've just created now show up. 
+[![acceptInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155225771-184cca6d-f715-45ca-9ba6-452c3a86216b.mov)
 
 Click on the Invite ID at the top of the invitation to be taken to the invite. Select the email account 
 associated with the workspace you want to accept the invite from. For me that is the account with `horeaporutiu1@gmail.com`.
 Click through the following two pages. You can leave the defaults as is (Public channel, same channel name). Lastly,
-click on `Join Channel`.
-
-Now, if you click on `View Invitations again` you should see that the buttons have changed. Instead of seeing `Accept` and `Ignore`you will
+click on `Join Channel`. Now, if you click on `View Invitations again` you should see that the buttons have changed. Instead of seeing `Accept` and `Ignore`you will
 now see `Approve` and `Deny`. 
+
+
 
 ## Step 6. Approve the Slack Connect Invite
 
