@@ -1,27 +1,24 @@
-let homeView = require("../views/home_view.js");
-let utils = require("../../utils/utils.js");
+const homeView = require('../views/home_view.js');
+const utils = require('../../utils/utils.js');
 
 const sharedChannelInviteAccepted = async (
-  { context, client, event, body },
+    {context, client, event, body},
 ) => {
-  console.log('shared invite accepted')
-  let userID = body.event.accepting_user.id;
-  console.log('userID, ', userID)
-  let homeblocks = await homeView.homeBlocks();
-  let inviteBlocks = await utils.listInvites(client, userID);
-  let newBlocks = await homeblocks.concat(inviteBlocks);
+  const userID = body.event.accepting_user.id;
+  const homeblocks = await homeView.homeBlocks();
+  const inviteBlocks = await utils.listInvites(client, userID);
+  const newBlocks = await homeblocks.concat(inviteBlocks);
 
   const result = await client.views.publish({
     user_id: userID,
     view: {
-      type: "home",
+      type: 'home',
       blocks: newBlocks,
       private_metadata: userID,
     },
   });
-  
 
-  return;
+  return result;
 };
 
-module.exports = { sharedChannelInviteAccepted };
+module.exports = {sharedChannelInviteAccepted};

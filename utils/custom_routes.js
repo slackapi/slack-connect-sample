@@ -1,23 +1,23 @@
-let html = require("./../templates");
+const html = require('./../templates');
 
-    const customRoutes = [
-        {
-          path: "/slack/install/",
-          method: ["GET"],
-          handler: (req, res) => {
-            res.writeHead(200);
-            res.end(html.normalInstall);
-          },
-        },
-        {
-            path: "/slack/install/userToken",
-            method: ["GET"],
-            handler: (req, res) => {
-              res.writeHead(200);
-              res.end(html.userTokenInstall);
-            },
-          },
-      ]
-      return  customRoutes
-  
-module.exports = { customRoutes };
+const customRoutes = [
+  {
+    path: '/slack/install/workspace',
+    method: ['GET'],
+    handler: (req, res) => {
+      res.writeHead(200);
+      res.end(html.workspaceInstall);
+    },
+  },
+  {
+    path: '/slack/install/orgadmin',
+    method: ['GET'],
+    handler: (req, res) => {
+      res.writeHead(200);
+      res.end(html.orgAdminInstall);
+    },
+  },
+];
+return customRoutes;
+
+module.exports = {customRoutes};

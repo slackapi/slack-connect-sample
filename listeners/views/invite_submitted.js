@@ -1,20 +1,19 @@
-let model = require("../../database/db_model.js");
+const model = require('../../database/db_model.js');
 
-let homeView = require("./home_view.js");
+const homeView = require('./home_view.js');
 
-const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
+const inviteSubmittedCallback = async ({ack, view, body, client}) => {
   try {
-
     await ack({
-      "response_action": "clear",
-    }); 
+      'response_action': 'clear',
+    });
 
     const providedValues = view.state.values;
     console.log(providedValues);
     const selectedChannel = await providedValues.channel_select_block
-      .channels_select_actionID.selected_channel;
+        .channels_select_actionID.selected_channel;
 
-    let email, userID, datePicked;
+    let email; let userID; let datePicked;
     if (providedValues.userID_input_block.userID_actionID.value != null) {
       userID = await providedValues.userID_input_block.userID_actionID.value;
     }
@@ -28,7 +27,7 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
         null
     ) {
       datePicked = await providedValues.datepicker_input_block
-        .datepicker_actionID.selected_date;
+          .datepicker_actionID.selected_date;
     }
 
     let withEmail = true;
@@ -38,15 +37,15 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
     }
 
     let isExternalLimited = await providedValues.is_external_limited_block
-      .this_is_an_action_id.selected_option.value;
+        .this_is_an_action_id.selected_option.value;
     console.log(isExternalLimited);
-    if (isExternalLimited === "Limited") {
+    if (isExternalLimited === 'Limited') {
       isExternalLimited = true;
     } else {
       isExternalLimited = false;
     }
 
-    //send API request to send invite with email
+    // send API request to send invite with email
     let resp;
 
     if (withEmail) {
@@ -65,29 +64,29 @@ const inviteSubmittedCallback = async ({ ack, view, body, client }) => {
 
     if (datePicked) {
       await dbUtils.connect();
-      let updateDBResp = await model.Invite.findByIdAndUpdate(
-        resp.invite_id,
-        { exp_date: datePicked },
-        { upsert: true },
+      const updateDBResp = await model.Invite.findByIdAndUpdate(
+          resp.invite_id,
+          {exp_date: datePicked},
+          {upsert: true},
       );
       console.log(updateDBResp);
     }
 
-    let homeBlocks = await homeView.homeBlocks(body.user.id);
-    
+    const homeBlocks = await homeView.homeBlocks(body.user.id);
+
     await client.views.publish({
       user_id: body.user.id,
       view: {
-        "type": "home",
-        "blocks": homeBlocks,
-        "external_id": "homeView",
+        'type': 'home',
+        'blocks': homeBlocks,
+        'external_id': 'homeView',
       },
     });
 
     return;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
 };
 
-module.exports = { inviteSubmittedCallback };
+module.exports = {inviteSubmittedCallback};

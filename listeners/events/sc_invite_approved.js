@@ -1,14 +1,12 @@
-const sharedChannelInviteApproved = async ({ client, event, body }) => {
-  
+const sharedChannelInviteApproved = async ({client, event, body}) => {
   try {
     await ack();
 
     console.log('sharedChannelInviteApproved');
-    console.log(event)
-  }
-  catch (error) {
+    console.log(event);
+  } catch (error) {
     console.error(error);
   }
 };
 
-module.exports = { sharedChannelInviteApproved };
+module.exports = {sharedChannelInviteApproved};

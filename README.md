@@ -169,7 +169,21 @@ Now, let's approve the invite. Click on the green `Approve` button next to the i
 new channel `test_sc_app` will be added under the `Connections` tab. 
 
 ## Step 7. Disconnect the Channel
-Lastly, let's disconnect a channel when we are done using it. Click on the 
+Lastly, let's disconnect a channel when we are done using it. To do this, we will need a special, [admin scope](https://api.slack.com/scopes/admin.conversations:write). The main difference between
+this scope and the other scopes we've requested in the past is that this endpoint reaches across 
+an entire Enterprise Grid organization, not individual workspaces. This means it has a lot more 
+power than the traditional scopes. **Installing this scope is only possible if you are logged in as an admin or Owner of your org.**
+
+Once you are ready to install, navigate to the following endpoint: `www.example.com/slack/install/orgadmin`. Since I am using ngrok currently, my endpoint is: https://3015-98-51-61-120.ngrok.io/slack/install/orgadmin. Your base path will look different than mine.
+
+Once you navigate to that endpoint, you should see a purple Add to Slack button. Once you click on that, you should be able to install the app **at the org level**. This means that it is normal to 
+see organizations in the drop down, in addition to workspaces. This install will ONLY work on a valid 
+organization which you are a Owner or admin of. Watch the video below to see the process in action.
+
+
+
+
+ Click on the 
 `Disconnect Channels` button. Select the channel `test_sc_app` and then 
 click on `Disconnect`. 
 Within a few seconds, you should see that channel move from the `Connections` section of the sidebar, to the `Channels` section
