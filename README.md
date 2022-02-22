@@ -170,7 +170,7 @@ Click on the green `Approve` button next to the invite. After a few seconds, you
 ## Step 7. Disconnect the Channel
 
 Watch the video below **(sound on)** to understand how to disconnect your shared channel. This will involve installing the app again, but this 
-time at the org level. 🚨You will also need to be an org owner / admin to be able to use this feature.🚨
+time at the org level. 🚨You need to be **logged in as an org owner / admin** to be able to use this feature.🚨
 
 [![disconnect](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155230983-046ff198-6017-410a-97d1-5ba311496b77.mp4)
 
