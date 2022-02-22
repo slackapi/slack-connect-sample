@@ -18,6 +18,5 @@ const customRoutes = [
     },
   },
 ];
-return customRoutes;
 
 module.exports = {customRoutes};
