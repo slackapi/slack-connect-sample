@@ -82,10 +82,12 @@ https://3cb89939.ngrok.io/slack/oauth_redirect
 
 1. [Configure Interactivity, Events, and Redirect URLs](#step-1-configure-interactivity-events-and-redirect-URLs)
 2. [Install the App](#step-2-install-the-app)
-3. [Add the App to a Channel](#step-3-install-contract)
-4. [Send a Slack Connect Invite using the App](#step-4-Instantiate-contract)
-5. [Export Connection Details](#step-5-export-connection-details)
-6. [Run the App](#step-5-run-the-app) 
+3. [Add the App to a Channel](#step-3-add-the-app-to-a-channel)
+4. [Send a Slack Connect Invite](#step-4-send-a-slack-connect-invite)
+5. [Accept the Slack Connect Invite](#step-5-accept-the-slack-connect-invite)
+6. [Approve the Slack Connect Invite](#step-6-approve-the-slack-connect-invite)
+7. [Disconnect the Channel](#step-7-disconnect-the-channel) 
+8. [Conclusion](#conclusion) 
 
 ## Step 1. Configure Interactivity, Events, and Redirect URLs
 
@@ -126,14 +128,14 @@ If you are using Ngrok, it should look something like `https://3cb89939.ngrok.io
 
 ## Step 3. Add the App to a Channel
 
-Watch the video below to understand how to add the app to a channel. First, we 
+Watch the video below **(sound on)** to understand how to add the app to a channel. First, we 
 create a new channel, then we add the app to that channel.
 
 [![Add App to Channel](https://user-images.githubusercontent.com/10428517/155204764-789193f2-8cce-46aa-8268-508cf38195b9.png)](https://user-images.githubusercontent.com/10428517/155204315-2fa1b888-d479-494d-ae80-ebe59da02868.mov)
 
 ## Step 4. Send a Slack Connect Invite using the App
 
-Watch the video below to understand how to send an invite to a user outside of your current organization.
+Watch the video below **(sound on)** to understand how to send an invite to a user outside of your current organization.
 
 [![sendInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155223009-e03aa7c6-ba0c-46e6-9803-db90906e0138.mov)
 
@@ -148,7 +150,7 @@ newly created inviation.
 
 
 ## Step 5. Accept the Slack Connect Invite
-Watch the view below to understand how to accept the invite.
+Watch the video below **(sound on)** to understand how to accept the invite.
 
 [![acceptInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155225771-184cca6d-f715-45ca-9ba6-452c3a86216b.mov)
 
@@ -158,18 +160,24 @@ Click through the following two pages. You can leave the defaults as is (Public 
 click on `Join Channel`. Now, if you click on `View Invitations again` you should see that the buttons have changed. Instead of seeing `Accept` and `Ignore`you will
 now see `Approve` and `Deny`. 
 
-
-
 ## Step 6. Approve the Slack Connect Invite
+Watch the video below **(sound on)** to understand how to approve the invite.
 
-Now, let's approve the invite. Click on the green `Approve` button next to the invite. After a few seconds, you should see that invite dissapear and then a 
-new channel `test_sc_app` will be added under the `Connections` tab. 
+[![approveInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155228571-f4a10314-f5bb-4af2-803e-3bcfd41145a9.mov)
+
+Click on the green `Approve` button next to the invite. After a few seconds, you should see that invite dissapear and then the `test_sc_app` channel will be added under the `Connections` tab, which means it's been shared outside of your own organization! 
 
 ## Step 7. Disconnect the Channel
-Lastly, let's disconnect a channel when we are done using it. To do this, we will need a special, [admin scope](https://api.slack.com/scopes/admin.conversations:write). The main difference between
+
+Watch the video below **(sound on)** to understand how to disconnect your shared channel. This will involve installing the app again, but this 
+time at the org level. 🚨You will also need to be an org owner / admin to be able to use this feature.🚨
+
+[![approveInvite](https://user-images.githubusercontent.com/10428517/155223135-f9f6a0fd-4e93-4494-bb73-feddbbb09170.png)](https://user-images.githubusercontent.com/10428517/155229155-c8800be7-b10d-4bb5-8276-ad8345d2b21a.mov)
+
+To disconnect a channel, we will need a special, [admin scope](https://api.slack.com/scopes/admin.conversations:write). The main difference between
 this scope and the other scopes we've requested in the past is that this endpoint reaches across 
 an entire Enterprise Grid organization, not individual workspaces. This means it has a lot more 
-power than the traditional scopes. **Installing this scope is only possible if you are logged in as an admin or Owner of your org.**
+power than the traditional scopes. 
 
 Once you are ready to install, navigate to the following endpoint: `www.example.com/slack/install/orgadmin`. Since I am using ngrok currently, my endpoint is: https://3015-98-51-61-120.ngrok.io/slack/install/orgadmin. Your base path will look different than mine.
 
@@ -177,13 +185,19 @@ Once you navigate to that endpoint, you should see a purple Add to Slack button.
 see organizations in the drop down, in addition to workspaces. This install will ONLY work on a valid 
 organization which you are a Owner or admin of. Watch the video below to see the process in action.
 
-
-
-
- Click on the 
-`Disconnect Channels` button. Select the channel `test_sc_app` and then 
+After you've sucessfully installed the app at the org level, click on the 
+`Disconnect Channels` button. Select the channel `demo_sc_app` and then 
 click on `Disconnect`. 
-Within a few seconds, you should see that channel move from the `Connections` section of the sidebar, to the `Channels` section
+Within a few seconds, you should see that channel move from the `Connections` section of the sidebar, to the `Channels` section. This means 
+that this channel has now been disconnected from the organization it was previously connected to.
 
+## Conclusion
+Great job! You've learned how the Slack Connect APIs work! You've learned how to send an invite, accept and invite, approve an invite, and 
+also disconnect a shared channel!
+
+Another thing you may want to try is to edit settings for your organization's Slack Connect use case. If you want to auto approve all 
+channels between a certain organization you may do that. This will speed up the creation of Slack Connect channels. 
+
+Thanks so much for learning with me. Please file any issues in this GitHub repo! 
 
 
