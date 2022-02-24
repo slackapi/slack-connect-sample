@@ -1,12 +1,20 @@
-# Slack Connect Admin App
+# 🤖 Slack Connect Bot 🤖
+<p align="center">
 
-This project aims to speed up the time to understand & implement an app using Slack Connect APIs.
+[![Add App to Channel](https://user-images.githubusercontent.com/10428517/155399298-a7784e0a-3b13-42b3-a3e4-96217efbd0d9.gif)](https://user-images.githubusercontent.com/10428517/155399298-a7784e0a-3b13-42b3-a3e4-96217efbd0d9.gif)
+</p>
 
-It is meant to be a blueprint app which others can take and build their own automations into.
+This project aims to speed up the time to understand & implement automations with [Slack Connect APIs](https://api.slack.com/apis/connect). This project aims to be the baseline
+on which a few different automations can be built:
 
-# Steps
-0. [Installation](#step-0-Installation)
-1. [Configure Interactivity, Events, and Redirect URLs](#step-1-configure-interactivity-events-and-redirect-URLs)
+* Disconnect channels automatically (based on a date picked at channel creation time)
+* Upload remote files into the app, keeping all information related to the 
+approval of a channel in one place
+* Customize org settings for auto approval to speed up creating multiple 
+channels between the same two organizations 
+
+# Steps 
+1. [App Configuration](#step-1-app-configuration)
 2. [Install the App](#step-2-install-the-app)
 3. [Add the App to a Channel](#step-3-add-the-app-to-a-channel)
 4. [Send a Slack Connect Invite](#step-4-send-a-slack-connect-invite)
@@ -15,15 +23,25 @@ It is meant to be a blueprint app which others can take and build their own auto
 7. [Disconnect the Channel](#step-7-disconnect-the-channel) 
 8. [Conclusion](#conclusion) 
 
-## Step 0. Installation
+## Step 1. App Configuration
 
 #### Create a Slack App
 
 1. Open [https://api.slack.com/apps/new](https://api.slack.com/apps/new) and choose "From an app manifest"
 2. Choose the workspace you want to install the application to
-3. Copy the contents of [manifest.json](./manifest.json) into the text box that says `*Paste your manifest code here*` (within the JSON tab) and click _Next_
+3. Copy the contents of [manifest.json](./manifest.json) into the text box that says `*Paste your manifest code here*` (within the JSON tab) and click _Next_. Make sure to change the URLs on the `manifest.json` in three
+specific places, as shown in the screenshot below.
+
+![changeManifest](https://user-images.githubusercontent.com/10428517/155407272-44a2eaf9-e735-453f-a9c7-18c21004a037.png)
+
 4. Review the configuration and click _Create_
 5. Click _Install to Workspace_ and _Allow_ on the screen that follows. You'll then be redirected to the App Configuration dashboard.
+6. Click on `Manage Distribution` and then make sure all boxes have 
+green check marks. Select `Remove Hard Coded Information`, check the box
+and then `Activate Public Distribution`.
+
+![activeDistribution](https://user-images.githubusercontent.com/10428517/155411289-45f63a4f-72dc-40b1-a45e-9fae8d2df673.png)
+
 
 #### Environment Variables
 
@@ -49,61 +67,6 @@ and the collection is named `users`.
 #### Run Bolt Server
 
 `npm start`
-<!-- 
-## Project Structure
-
-### `manifest.json`
-
-`manifest.json` is a configuration for Slack apps. With a manifest, you can create an app with a pre-defined configuration, or adjust the configuration of an existing app.
-
-### `app.js`
-
-`app.js` is the entry point for the application and is the file you'll run to start the server. This project aims to keep this file as thin as possible, primarily using it as a way to route inbound requests.
-
-### `/listeners`
-
-Every incoming request is routed to a "listener". Inside this directory, we group each listener based on the Slack Platform feature used, so `/listeners/shortcuts` handles incoming [Shortcuts](https://api.slack.com/interactivity/shortcuts) requests, `/listeners/views` handles [View submissions](https://api.slack.com/reference/interaction-payloads/views#view_submission) and so on.
-
-## App Distribution / OAuth
-
-Only implement OAuth if you plan to distribute your application across multiple workspaces. A separate `app-oauth.js` file can be found with relevant OAuth settings.
-
-When using OAuth, Slack requires a public URL where it can send requests. In this template app, we've used [`ngrok`](https://ngrok.com/download). Checkout [this guide](https://api.slack.com/tutorials/tunneling-with-ngrok) for setting it up.
-
-Start `ngrok` to access the app on an external network and create a redirect URL for OAuth.
-
-```
-ngrok http 3000
-```
-
-This output should include a forwarding address for `http` and `https` (we'll use `https`). It should look something like the following:
-
-```
-Forwarding   https://3cb89939.ngrok.io -> http://localhost:3000
-```
-
-Navigate to **OAuth & Permissions** in your app configuration and click **Add a Redirect URL**. The redirect URL should be set to your `ngrok` forwarding address with the `slack/oauth_redirect` path appended. For example:
-
-```
-https://3cb89939.ngrok.io/slack/oauth_redirect
-``` -->
-
-## Step 1. Configure Interactivity, Events, and Redirect URLs
-
-Follow the steps below based on if you plan to use Ngrok or Glitch as a way to host your app. Either will work.
-
-If you are using [Ngrok](www.ngrok.com), make sure you have started up ngrok, and have updated your app with the ngrok forwarding address in the following places:
-1. Update your event subscriptions request URL. It should look like the following: `https://3cb89939.ngrok.io/slack/events`. Save this.
-2. Update your interactivity request URL. It should look like the following: `https://3cb89939.ngrok.io/slack/events`. Save this.
-3. Go to OAuth & Permissions -> Redirect URLs. Add a new redirect URL. It should look like the following: `https://3cb89939.ngrok.io/slack/oauth_redirect`. Save the URL.
-
-If you are using [Glitch](www.glitch.com), follow these instructions. To find your hosted URL in Glitch, open your project in the Glitch web IDE,
-and then click on `Share`. From there you find the `Live site` link. Mine looks like the following: `https://bolt-template-slack-connect.glitch.me`
-
-Once you've found the URL to your live site, update your app's configuration in the following places:
-1. Update your event subscriptions request URL. It should look like the following: `https://bolt-template-slack-connect.glitch.me/slack/events`. Save this.
-2. Update your interactivity request URL. It should look like the following: `https://bolt-template-slack-connect.glitch.me/slack/events/slack/events`. Save this.
-3. Go to OAuth & Permissions -> Redirect URLs. Add a new redirect URL. It should look like the following: `https://bolt-template-slack-connect.glitch.me/slack/oauth_redirect`. Save the URL.
 
 Great job! You're now ready to install the app using Slack's OAuth process. 
 
@@ -190,7 +153,8 @@ click on `Disconnect`.
 Within a few seconds, you should see that channel move from the `Connections` section of the sidebar, to the `Channels` section. This means 
 that this channel has now been disconnected from the organization it was previously connected to.
 
-## Conclusion
+## 🎊 Conclusion 🎊 
+
 Great job! You've learned how the Slack Connect APIs work! You've learned how to send an invite, accept and invite, approve an invite, and 
 also disconnect a shared channel!
 
@@ -198,5 +162,3 @@ Another thing you may want to try is to edit settings for your organization's Sl
 channels between a certain organization you may do that. This will speed up the creation of Slack Connect channels. 
 
 Thanks so much for learning with me. Please file any issues in this GitHub repo! 
-
-
